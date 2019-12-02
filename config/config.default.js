@@ -29,7 +29,6 @@
 
 module.exports = appInfo => {
   const config = exports = {};
-  console.log('process.env', process.env.TASK_STATUS);
 
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1532600673558_1754';
@@ -99,6 +98,5 @@ module.exports = appInfo => {
     defaultViewEngine: 'ejs',
     defaultExtension: '.ejs',
   };
-
   return config;
 };

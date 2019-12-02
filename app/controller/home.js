@@ -117,6 +117,76 @@ module.exports = app => {
         }
       }));
     }
+
+    async cors() {
+      // ctx.set('Access-Control-Allow-Credentials', true);
+      const { ctx } = this;
+      const res = ctx;
+      res.set('Access-Control-Allow-Origin', '*');
+      res.set('Access-Control-Allow-Headers', 'X-Requested-With');
+      res.set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+      res.set('X-Powered-By', ' 3.2.1');
+      res.set('Content-Type', 'application/json;charset=utf-8');
+      console.log('this is customer', ctx.session.customer);
+      res.body = {
+        code: 200,
+        data: 'cyd',
+      };
+      // ctx.session.customer = 'cyd';
+      // ctx.set('Access-Control-Allow-Credentials', true);
+      // ctx.body = 200;
+    }
+
+    async setTime() {
+      //
+      const { ctx } = this;
+      setTimeout(() => {
+        ctx.set();
+      }, 4000);
+    }
+
+    async getTime() {
+      //
+      const { ctx } = this;
+      const result = await ctx.curl('http://127.0.0.1:7001/home/setTime', {
+        method: 'GET',
+        dataType: 'json',
+        timeout: 7000,
+      });
+      console.log('this is result', result);
+      const data = result.data;
+      ctx.body = data;
+    }
+
+    async testTryCatch() {
+      const { ctx } = this;
+      try {
+        // throw { error: Promise.reject(new Error({ name: 'cyd' })) };
+        throw { error: new Error('cyd') };
+      } catch (error) {
+        if (!error.noLog) {
+          // console.log('this is error', error);
+          // console.log('cyd');
+        }
+      }
+      // throw new Error('fail');
+      const data = await ctx.curl('http://cususa.kkk.com');
+      console.log('data', data);
+      ctx.body = 200;
+    }
+
+    async connectHandOut() {
+      const { ctx } = this;
+      const arr = [];
+      for (let i = 0; i < 100; i++) {
+        arr.push(i);
+      }
+      await Promise.all(arr.map(async () => {
+        await ctx.curl('https://www.baidu.com', {
+          method: 'GET',
+        });
+      }));
+    }
   }
   return HomeController;
 }
